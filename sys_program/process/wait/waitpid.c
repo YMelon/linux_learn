@@ -43,12 +43,13 @@ int main() {
 	    //wpid > 0 说明成功回收了一个子进程
 	    //wpid == -1, 说明子进程都回收完毕，没有可供回收的子进程
 	    wpid = waitpid(-1, NULL, WNOHANG);
+	    sleep(1);//慢点
 	} while(wpid > 0 || wpid == 0);
      
       /*
 	do{
 	    wpid = waitpid(-1, NULL, WNOHANG);
-	    if(wpid > 0) {
+	    if(wpid > 0) { //成功回收一个子进程
 		n --;
 	    }
 	} while(n > 0);
