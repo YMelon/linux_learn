@@ -1,4 +1,4 @@
-//非血缘关系进程间利用mmap进行通信 读数据进程
+//非血缘关系进程间利用mmap进行通信 写数据进程
 
 #include <stdio.h>
 #include <stdlib.h>
@@ -22,8 +22,8 @@ void sys_err(char* str) {
 
 int main(int argc, const char* argv[]) {
     int fd;
-    struct STU student;
-    struct STU* mm;
+    struct STU student = {10, "Thompson", 'm'};
+    char* mm;
     
     //程序使用错误处理 通过命令行参数获取用于创建映射区的文件
     if(argc < 2) {
@@ -32,19 +32,21 @@ int main(int argc, const char* argv[]) {
     }
     
     //打开用于映射的文件
-    fd = open(argv[1], O_RDONLY);
+    //提前在同一目录下准备好文件,大小要大于结构体
+    fd = open(argv[1], O_RDWR);
     if(fd == -1)
 	sys_err("open error");
 
-    mm = mmap(NULL, sizeof(student), PROT_READ, MAP_SHARED, fd, 0);
+    mm = mmap(NULL, sizeof(student), PROT_READ|PROT_WRITE, MAP_SHARED, fd, 0);
     if(mm == MAP_FAILED)
 	sys_err("mmap error");
     close(fd);
 
-    //从映射区读数据
+    //向映射区写数据
     while(1) {
-	printf("id = %d\tname = %s\tsex = %c \n", mm -> id, mm -> name, mm -> sex);
-	sleep(2);
+	memcpy(mm, &student, sizeof(student));
+	student.id ++;
+	sleep(1);
     }
     
     //释放
