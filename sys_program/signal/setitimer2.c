@@ -32,7 +32,8 @@ int main() {
 	perror("setitimer error");
 	exit(1);
     }
-
+    
+    //进程一直运行 便于观察定时器
     while(1);
 
     return 0;

@@ -13,6 +13,7 @@ int main() {
     int cnt = 1;
     while(1) {
 	printf("%d\n", cnt ++);
+	//printf("大哞爱哞哞\n");
     }
 
     return 0;
