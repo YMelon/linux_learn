@@ -131,7 +131,7 @@ int main()
 		    dup2(pfd[i-1][0], STDIN_FILENO);
 		    close(pfd[i-1][1]);
 
-		    for(j = 0; j < pipe_num-1, ++j) {
+		    for(j = 0; j < pipe_num-1; ++j) {
 			close(pfd[j][0]);
 			close(pfd[j][1]);
 		    }
